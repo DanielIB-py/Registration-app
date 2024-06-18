@@ -5,7 +5,7 @@ pipeline {
         maven 'Maven3'
     }
     environment {
-            APP_NAME = "register-app-pipeline"
+            APP_NAME = "registration-app-pipeline"
             RELEASE = "1.0.0"
             DOCKER_USER = "daniel217x"
             DOCKER_PASS = 'dockerhub'
@@ -24,7 +24,7 @@ pipeline {
 
         stage("Checkout from SCM") {
                steps {
-                   git branch: 'main', credentialsId: 'github', url: 'https://github.com/Danielib217/Registration-app'
+                   git branch: 'main', credentialsId: 'github', url: 'https://github.com/DanielIB-py/Registration-app'
                }
         }
 
@@ -40,16 +40,7 @@ pipeline {
                }
         }
         
-      stage("SonarQube Analysis"){
-            steps {
-                script {
-                    withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token'){
-                        sh "mvn sonar:sonar"
-                    }
-                }
-            }
-        }
-
+    
     
         stage("Build & Push Docker Image"){
             steps{

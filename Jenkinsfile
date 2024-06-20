@@ -13,6 +13,7 @@ pipeline {
             IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
             BRIDGE_POLARIS_APPLICATION_NAME = "WHIPSO"
             BRIDGE_POLARIS_PROJECT_NAME = "Test CI"
+            BRIDGE_POLARIS_BRANCH_NAME = "main"
     }
 
     

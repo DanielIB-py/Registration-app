@@ -11,6 +11,8 @@ pipeline {
             DOCKER_PASS = 'dockerhub'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+            BRIDGE_POLARIS_APPLICATION_NAME = "WHIPSO"
+            BRIDGE_POLARIS_PROJECT_NAME = "Test CI"
     }
 
     
@@ -40,7 +42,18 @@ pipeline {
                }
         }
         
-    
+    stage('polaris') {
+        steps {
+            withCredentials([string(credentialsId: 'poc.polarissynopsys.com', variable: 'BRIDGE_POLARIS_ACCESSTOKEN')]) {
+                script {
+                              
+                      sh('curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip $RUNNER_TEMP bridge.zip && rm -f bridge.zip && /home/whip/workspace/Reigtration-app-ci/synopsys-bridge --verbose --stage polaris polaris.assessment.types=SAST,SCA')
+                  
+             
+                }
+            }
+        }
+    }
     
         stage("Build & Push Docker Image"){
             steps{
